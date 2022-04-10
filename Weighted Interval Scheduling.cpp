@@ -36,7 +36,7 @@ void printP(){
     cout << "P:" << endl;
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
-            cout << setw(3) << P[i][j] << " ";
+            cout << setw(3) << P[i][j]+1 << " ";
         }
         cout << endl;
     }
@@ -53,7 +53,7 @@ void floyd(){
     int i, j, k;
     for(i=0; i<n; i++)
         for(j=0; j<n; j++)
-            P[i][j] = 0;
+            P[i][j] = -1;
 
     D_equal_W();
 
@@ -76,7 +76,6 @@ void floyd(){
 int main(){
     cin >> n;
     read();
-    printW();
     floyd();
 
     return 0;
