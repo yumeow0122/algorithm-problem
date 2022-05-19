@@ -1,59 +1,46 @@
-#include <iostream>
-#define L "LEFT"
-/*
-3 5
-1 4
-2 9
-4 20
-*/
-
+#include <bits/stdc++.h>
 
 using namespace std;
 
-struct Item{
-    int val, wei;
-};
+int n, w;
+int val[1000], wei[1000];
+int greedy[1000];
 
-Item item[1000];
-int table[1000][5000];
-int N, W;
-
-void show();
 void read(){
-    cin >> N >> W;
-    for(int i=1; i<=N; i++)
-        cin >> item[i].wei >> item[i].val;
+    cin >> n >> w;
+    for(int i=0; i<n; i++)
+        cin >> val[i] >> wei[i];
 }
-void solve(){
-    for(int w=0; w<=W; w++){
-        table[0][w] = 0;
-    }
+void knapsack(){
+    for(int i=0; i<=w; i++)
+        greedy[i] = 0;
 
-    for(int i=1; i<=N; i++){
-        int wi = item[i].wei, vi = item[i].val;
-        for(int w=0; w<=W; w++){
-            if(wi>W || w-wi<0){
-                table[i][w] = table[i-1][w];
-            }
-            else{
-                table[i][w] = max(vi + table[i-1][w-wi], table[i-1][w]);
+    for(int j=0; j<=w; j++){
+        for(int i=0; i<n; i++){
+            int vi = val[i], wi = wei[i];
+            if(wi <= j){
+                int temp = vi + greedy[j-wi];
+                greedy[j] = max(greedy[j],temp);
             }
         }
     }
 }
-void show(){
-    for(int i=0; i<=N; i++){
-        for(int j=0; j<=W; j++){
-            cout << table[i][j] << " ";
-        }
-        cout << endl;
-    }
+void print(){
+    for(int i=0; i<=w ;i++)
+        cout << greedy[i] << " ";
+    cout << endl;
 }
 
 int main(){
     read();
-    solve();
-    show();
-    cout << L;
+    knapsack();
+    print();
     return 0;
 }
+
+/*
+3 5
+4 1
+9 2
+20 4
+*/
