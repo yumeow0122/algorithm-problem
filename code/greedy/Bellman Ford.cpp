@@ -7,36 +7,30 @@ int d[1000];
 int w[1000][1000];
 const int inf = 0x3f3f3f3f;
 
+void print();
 void read(){
     cin >> n;
     for(int i=0; i<n; i++)
         for(int j=0; j<n; j++)
             cin >> w[i][j];
 }
-void dijkstra(int source){
-    bool visit[n];
-    for (int i=0; i<n; i++){
-        visit[i] = false;
+void bellman_ford(int source){
+    for (int i=0; i<n; i++)
         d[i] = inf;
-    }
 
     d[source] = 0;
-
-    for (int k=0; k<n; k++){
-        int a = -1, min_ = inf;
-        for (int i=0; i<n; i++){
-            if (!visit[i] && d[i] < min_){
-                a = i;
-                min_ = d[i];
+    print();
+    for (int i=0; i<n-1; i++){
+        for (int a=0; a<n; ++a){
+            for (int b=0; b<n; ++b){
+                if (d[a] != inf && w[a][b] != inf){
+                    if (d[a] + w[a][b] < d[b]){
+                        d[b] = d[a] + w[a][b];
+                    }
+                }
             }
         }
-
-        if (a == -1 || min_ == inf) break;
-        visit[a] = true;
-
-        for (int b=0; b<n; b++)
-            if (!visit[b] && d[a] + w[a][b] < d[b])
-                d[b] = d[a] + w[a][b];
+        print();
     }
 }
 
@@ -49,7 +43,7 @@ void print(){
 
 int main(){
     read();
-    dijkstra(0);
+    bellman_ford(0);
     print();
     return 0;
 }
@@ -62,5 +56,14 @@ int main(){
 9 1 9 4 6
 9 9 9 9 2
 3 9 9 7 9
+
+5
+99 -1  4 99 99
+99 99  3  2  2
+99 99 99 99 99
+99  1  5 99 99
+99 99 99 -3 99
+
+
 
 */
